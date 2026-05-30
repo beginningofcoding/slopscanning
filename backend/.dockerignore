@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+__pycache__
+*.pyc
+.venv
+venv
+tmp/sandboxed
+.pytest_cache
+.git
