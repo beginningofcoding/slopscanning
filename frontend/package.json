@@ -1,0 +1,39 @@
+{
+  "name": "slopscanning-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "author": "thanos",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beginningofcoding/slopscanning.git"
+  },
+  "homepage": "https://github.com/beginningofcoding/slopscanning",
+  "bugs": {
+    "url": "https://github.com/beginningofcoding/slopscanning/issues"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
+    "diff": "^7.0.0",
+    "lucide-react": "^0.468.0",
+    "next": "^16.2.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "eslint": "^10.4.1",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^4.0.0"
+  }
+}
