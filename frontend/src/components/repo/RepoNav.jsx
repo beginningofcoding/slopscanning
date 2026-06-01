@@ -1,16 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { Target, Fingerprint, Eye, ScanLine, ChevronRight, Scan } from 'lucide-react';
+import { Target, Fingerprint, Eye, ScanLine, ChevronRight, Scan, Home } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 import { PROJECT_NAME } from '@/lib/project';
 
 const TABS = [
-  { key: 'audit', label: 'Full Audit', icon: Scan, href: (o, n) => `/repo/${o}/${n}/audit` },
-  { key: 'prs', label: 'PR Reviewer', icon: Target, href: (o, n) => `/repo/${o}/${n}/prs` },
-  { key: 'commits', label: 'Commit Verifier', icon: Fingerprint, href: (o, n) => `/repo/${o}/${n}/commits` },
-  { key: 'docs', label: 'Docs Verifier', icon: Eye, href: (o, n) => `/repo/${o}/${n}/docs` },
-  { key: 'scan', label: 'Code Scanner', icon: ScanLine, href: (o, n) => `/repo/${o}/${n}/scan` },
+  { key: 'audit', label: 'Repository Audit', icon: Scan, href: (o, n) => `/repo/${o}/${n}/audit` },
+  { key: 'prs', label: 'Pull Request Check', icon: Target, href: (o, n) => `/repo/${o}/${n}/prs` },
+  { key: 'commits', label: 'Commit Inspector', icon: Fingerprint, href: (o, n) => `/repo/${o}/${n}/commits` },
+  { key: 'docs', label: 'Docs Inspector', icon: Eye, href: (o, n) => `/repo/${o}/${n}/docs` },
+  { key: 'scan', label: 'Source Scanner', icon: ScanLine, href: (o, n) => `/repo/${o}/${n}/scan` },
 ];
 
 export default function RepoNav({ owner, name, active }) {
@@ -18,14 +18,15 @@ export default function RepoNav({ owner, name, active }) {
     <nav
       style={{
         background: 'var(--nav-bg)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
         borderBottom: '1px solid var(--nav-border)',
         position: 'sticky',
         top: 0,
         zIndex: 50,
       }}
     >
+      {/* Top strip: logo + breadcrumb */}
       <div
         style={{
           maxWidth: '1400px',
@@ -33,8 +34,9 @@ export default function RepoNav({ owner, name, active }) {
           padding: '0 1.5rem',
           display: 'flex',
           alignItems: 'center',
-          gap: '0',
-          height: '52px',
+          gap: '8px',
+          height: '44px',
+          borderBottom: '1px solid rgba(88,192,200,0.06)',
         }}
       >
         <Link
@@ -42,63 +44,83 @@ export default function RepoNav({ owner, name, active }) {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
+            gap: '6px',
             textDecoration: 'none',
-            marginRight: '1rem',
             flexShrink: 0,
           }}
         >
-          <Logo size={28} style={{ color: '#0a0f14', flexShrink: 0, filter: 'drop-shadow(0 0 8px rgba(var(--scan-red-rgb), 0.35))' }} />
-          <span style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+          <Logo size={22} style={{ flexShrink: 0, filter: 'drop-shadow(0 0 6px rgba(var(--scan-red-rgb), 0.35))' }} />
+          <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             {PROJECT_NAME}
           </span>
         </Link>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            marginRight: '1.5rem',
-            paddingRight: '1.5rem',
-            borderRight: '1px solid rgba(var(--scan-red-rgb), 0.12)',
-            flexShrink: 0,
-          }}
-        >
-          <ChevronRight size={14} color="var(--text-muted)" />
-          <span className="mono" style={{ fontSize: '0.8125rem', color: 'var(--scan-red)' }}>
-            {owner}/{name}
-          </span>
-        </div>
+        <ChevronRight size={13} color="var(--text-dim)" />
+        <Home size={13} color="var(--text-muted)" />
+        <ChevronRight size={13} color="var(--text-dim)" />
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', height: '100%' }}>
-          {TABS.map(({ key, label, icon: Icon, href }) => {
-            const isActive = active === key;
-            return (
-              <Link
-                key={key}
-                href={href(owner, name)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '0 12px',
-                  height: '100%',
-                  fontSize: '0.8125rem',
-                  fontWeight: isActive ? 600 : 400,
-                  color: isActive ? 'var(--scan-red)' : 'var(--text-secondary)',
-                  textDecoration: 'none',
-                  borderBottom: isActive ? '2px solid var(--scan-red)' : '2px solid transparent',
-                  transition: 'color 0.15s, border-color 0.15s',
-                  boxSizing: 'border-box',
-                }}
-              >
-                <Icon size={14} />
-                {label}
-              </Link>
-            );
-          })}
-        </div>
+        <span className="mono" style={{ fontSize: '0.8125rem', color: 'var(--scan-red)', fontWeight: 500 }}>
+          {owner}
+        </span>
+        <ChevronRight size={13} color="var(--text-dim)" />
+        <span className="mono" style={{ fontSize: '0.8125rem', color: 'var(--scan-red)', fontWeight: 600 }}>
+          {name}
+        </span>
+      </div>
+
+      {/* Bottom strip: module tabs */}
+      <div
+        style={{
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '0 1.5rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '2px',
+          height: '40px',
+          overflowX: 'auto',
+        }}
+      >
+        {TABS.map(({ key, label, icon: Icon, href }) => {
+          const isActive = active === key;
+          return (
+            <Link
+              key={key}
+              href={href(owner, name)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                padding: '5px 11px',
+                fontSize: '0.78rem',
+                fontWeight: isActive ? 600 : 400,
+                color: isActive ? 'var(--scan-red)' : 'var(--text-secondary)',
+                textDecoration: 'none',
+                borderRadius: '8px',
+                background: isActive ? 'rgba(88,192,200,0.08)' : 'transparent',
+                border: isActive ? '1px solid rgba(88,192,200,0.18)' : '1px solid transparent',
+                transition: 'all 0.15s',
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+              }}
+              onMouseEnter={e => {
+                if (!isActive) {
+                  e.currentTarget.style.background = 'rgba(88,192,200,0.05)';
+                  e.currentTarget.style.color = 'var(--text-primary)';
+                }
+              }}
+              onMouseLeave={e => {
+                if (!isActive) {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                }
+              }}
+            >
+              <Icon size={13} />
+              {label}
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );

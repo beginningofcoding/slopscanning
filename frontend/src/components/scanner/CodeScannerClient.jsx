@@ -190,7 +190,7 @@ function AISummaryPanel({ summary }) {
     >
       <div style={{ padding: '10px 14px', borderBottom: '1px solid var(--color-border)', background: 'var(--color-surface-2)', display: 'flex', alignItems: 'center', gap: '8px' }}>
         <Zap size={14} color="var(--color-accent)" />
-        <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-text-primary)' }}>AI Executive Summary</span>
+        <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-text-primary)' }}>AI Code Summary</span>
       </div>
       <div style={{ padding: '14px 16px' }}>
         {summary.executive_summary && (
@@ -215,7 +215,7 @@ function AISummaryPanel({ summary }) {
         {summary.top_recommendations?.length > 0 && (
           <div>
             <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
-              Top Recommendations
+              Recommendations
             </div>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {summary.top_recommendations.map((r, i) => (
@@ -315,10 +315,10 @@ export default function CodeScannerClient({ owner, name }) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 0', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '2px' }}>
-            AI Slop Scanner
+            Source Code Scanner
           </h1>
           <p style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-            Detect dead code, fake implementations, hardcoded values, and AI coding artifacts.
+            Hunt dead code, stub implementations, embedded secrets, and AI coding anti-patterns.
           </p>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -350,7 +350,7 @@ export default function CodeScannerClient({ owner, name }) {
                 cursor: starting ? 'wait' : 'pointer',
               }}
             >
-              {starting ? 'Starting…' : '⚡ Start Scan'}
+              {starting ? 'Starting…' : '⚡ Run Scanner'}
             </button>
           )}
         </div>
@@ -391,7 +391,7 @@ export default function CodeScannerClient({ owner, name }) {
               }}
             >
               <div style={{ padding: '8px 12px', borderBottom: '1px solid var(--color-border)', fontSize: '0.6875rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.07em', flexShrink: 0 }}>
-                Explorer
+                File Tree
               </div>
               <div style={{ padding: '4px', overflowY: 'auto', flex: 1 }}>
                 {Object.entries(tree).sort(([ak, av], [bk, bv]) => {
@@ -459,7 +459,7 @@ export default function CodeScannerClient({ owner, name }) {
                   </div>
                 ) : (
                   <span style={{ fontSize: '0.8125rem', color: 'var(--color-text-muted)', padding: '0 8px' }}>
-                    No file selected
+                    No file open
                   </span>
                 )}
               </div>
@@ -511,8 +511,8 @@ export default function CodeScannerClient({ owner, name }) {
           </div>
           <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
              <FileSearch size={48} color="var(--color-text-muted)" style={{ marginBottom: '16px' }} />
-             <p style={{ fontSize: '1.125rem', color: 'var(--color-text-secondary)', fontWeight: 500 }}>Click "Start Scan" to analyze the repository.</p>
-             <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginTop: '8px' }}>Detect dead code, fake implementations, and AI coding artifacts.</p>
+             <p style={{ fontSize: '1.125rem', color: 'var(--color-text-secondary)', fontWeight: 500 }}>Press "Run Scanner" to analyse this repository.</p>
+             <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginTop: '8px' }}>Finds dead code, stub functions, hardcoded secrets, and AI coding artifacts.</p>
           </div>
           <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '20px', opacity: 0.5 }} />
         </div>

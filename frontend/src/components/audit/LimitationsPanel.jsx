@@ -1,9 +1,11 @@
 'use client';
 
+import { Info } from 'lucide-react';
+
 const DEFAULT_LIMITATIONS = [
-  'Heuristic signals are not proof of AI authorship.',
-  'Polished human repositories may trigger false positives on doc templates.',
-  'Deep claim verification requires the PR Reviewer tab.',
+  'Heuristic signals indicate patterns — they are not direct proof of AI authorship.',
+  'Well-maintained human repos may trigger false positives on documentation templates.',
+  'In-depth claim cross-checking requires the Pull Request Checker module.',
 ];
 
 export default function LimitationsPanel({ limitations = DEFAULT_LIMITATIONS }) {
@@ -11,19 +13,25 @@ export default function LimitationsPanel({ limitations = DEFAULT_LIMITATIONS }) 
     <div
       style={{
         padding: '14px 16px',
-        background: 'var(--color-surface)',
-        border: '1px solid var(--color-border)',
+        background: 'rgba(88,104,152,0.06)',
+        border: '1px solid rgba(88,104,152,0.2)',
         borderRadius: 'var(--radius-lg)',
+        display: 'flex',
+        gap: '12px',
+        alignItems: 'flex-start',
       }}
     >
-      <h3 style={{ fontSize: '0.8125rem', fontWeight: 600, marginBottom: '8px', color: 'var(--color-text-secondary)' }}>
-        Known limitations
-      </h3>
-      <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.8125rem', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
-        {limitations.map((item, i) => (
-          <li key={i}>{item}</li>
-        ))}
-      </ul>
+      <Info size={15} color="var(--color-text-muted)" style={{ flexShrink: 0, marginTop: '1px' }} />
+      <div>
+        <h3 style={{ fontSize: '0.8rem', fontWeight: 700, marginBottom: '8px', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          Scan caveats
+        </h3>
+        <ul style={{ margin: 0, paddingLeft: '1.1rem', fontSize: '0.8125rem', color: 'var(--color-text-secondary)', lineHeight: 1.65, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          {limitations.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

@@ -32,11 +32,11 @@ export default function PRDetailClient({ prDetail, owner, name }) {
   const stateColor = state === 'merged' ? 'var(--purple)' : state === 'closed' ? 'var(--color-red)' : 'var(--color-green)';
 
   const tabs = [
-    { key: 'diff', label: 'Changed Files' },
+    { key: 'diff', label: 'File Changes' },
     { key: 'commits', label: `Commits ${prDetail.commits?.length ? `(${prDetail.commits.length})` : ''}` },
-    { key: 'comments', label: `Comments ${prDetail.comments?.length ? `(${prDetail.comments.length})` : ''}` },
-    ...(sseStatus !== 'idle' ? [{ key: 'progress', label: 'Analysis' }] : []),
-    ...(reviewResult ? [{ key: 'review', label: '⚡ Review Result' }] : []),
+    { key: 'comments', label: `Discussion ${prDetail.comments?.length ? `(${prDetail.comments.length})` : ''}` },
+    ...(sseStatus !== 'idle' ? [{ key: 'progress', label: 'Scan Progress' }] : []),
+    ...(reviewResult ? [{ key: 'review', label: '⚡ AI Review' }] : []),
   ];
 
   return (
@@ -54,7 +54,7 @@ export default function PRDetailClient({ prDetail, owner, name }) {
           marginBottom: '1.5rem',
         }}
       >
-        <ArrowLeft size={14} /> Back to PRs
+        <ArrowLeft size={14} /> Back to pull requests
       </Link>
 
       {/* PR header */}
@@ -107,7 +107,7 @@ export default function PRDetailClient({ prDetail, owner, name }) {
           }}
         >
           <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
-            PR Description
+            Description
           </div>
           {prDetail.body}
         </div>
@@ -131,7 +131,7 @@ export default function PRDetailClient({ prDetail, owner, name }) {
               letterSpacing: '-0.01em',
             }}
           >
-            {starting ? 'Starting analysis…' : '⚡ Review This PR'}
+            {starting ? 'Running analysis…' : '⚡ Analyse This PR'}
           </button>
         </div>
       )}
@@ -195,7 +195,7 @@ export default function PRDetailClient({ prDetail, owner, name }) {
       {activeTab === 'comments' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {(prDetail.comments || []).length === 0 && (
-            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9375rem' }}>No review comments.</p>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9375rem' }}>No comments on this PR yet.</p>
           )}
           {(prDetail.comments || []).map((comment, i) => (
             <div

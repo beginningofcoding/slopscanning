@@ -2,51 +2,68 @@
 
 @import "tailwindcss";
 
-/* ── Red Scan dark theme tokens ───────────────────────────── */
+/* ── Cool Blue-Cyan-Purple Theme — inspired by Image 1 ─────── */
 :root {
-  --bg-void: #050505;
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #111111;
-  --bg-surface: #1a1a1a;
-  --bg-surface-hover: #222222;
+  /* Base backgrounds — deep blue-purple */
+  --bg-void: #0D1028;
+  --bg-primary: #131840;
+  --bg-secondary: #1A2050;
+  --bg-surface: #242A60;
+  --bg-surface-hover: #2E3468;
 
-  --scan-red: #ff1a1a;
-  --scan-red-dim: #8a0000;
-  --scan-red-glow: rgba(255, 26, 26, 0.15);
-  --scan-red-glow-strong: rgba(255, 26, 26, 0.30);
+  /* Primary accent — cyan from image: #58C0C8 */
+  --scan-red: #58C0C8;
+  --scan-red-dim: #2A7080;
+  --scan-red-glow: rgba(88, 192, 200, 0.15);
+  --scan-red-glow-strong: rgba(88, 192, 200, 0.30);
 
-  --health-green: #00e676;
-  --health-green-dim: #00c853;
-  --warning-amber: #ffab00;
-  --warning-orange: #ff6d00;
-  --critical-red: #ff1744;
-  --info-blue: #448aff;
-  --purple: #b388ff;
+  /* Secondary accent — blue from image: #6088D0 */
+  --accent-blue: #6088D0;
+  --accent-blue-dim: #304880;
+  --accent-blue-glow: rgba(96, 136, 208, 0.15);
 
-  --text-primary: #f0f0f0;
-  --text-secondary: #888888;
-  --text-muted: #555555;
-  --text-dim: #333333;
+  /* Tertiary accent — purple from image: #4038B0 */
+  --accent-purple: #7870E8;
+  --accent-purple-dim: #4038B0;
 
+  /* Functional colors (kept for semantics, slightly tuned) */
+  --health-green: #58D0A0;
+  --health-green-dim: #2A8050;
+  --warning-amber: #E8C058;
+  --warning-orange: #D09040;
+  --critical-red: #E06070;
+  --info-blue: #78A8F0;
+  --purple: #A090F0;
+
+  /* Text */
+  --text-primary: #E8F0F0;
+  --text-secondary: #8898C0;
+  --text-muted: #586898;
+  --text-dim: #384060;
+
+  /* Surfaces & borders */
   --border-subtle: transparent;
-  --card-bg: rgba(10, 10, 10, 0.70);
+  --card-bg: rgba(19, 24, 64, 0.70);
   --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.30);
-  --nav-bg: rgba(5, 5, 5, 0.85);
-  --nav-border: rgba(255, 255, 255, 0.03);
-  --shadow-glow: 0 0 20px rgba(255, 26, 26, 0.15);
-  --shadow-glow-strong: 0 0 40px rgba(255, 26, 26, 0.25);
+  --nav-bg: rgba(13, 16, 40, 0.85);
+  --nav-border: rgba(88, 192, 200, 0.08);
+  --shadow-glow: 0 0 20px rgba(88, 192, 200, 0.15);
+  --shadow-glow-strong: 0 0 40px rgba(88, 192, 200, 0.25);
 
-  --scan-red-rgb: 255, 26, 26;
-  --health-green-rgb: 0, 230, 118;
-  --warning-amber-rgb: 255, 171, 0;
-  --warning-orange-rgb: 255, 109, 0;
-  --critical-red-rgb: 255, 23, 68;
-  --purple-rgb: 179, 136, 255;
-  --info-blue-rgb: 68, 138, 255;
-  --bg-void-rgb: 5, 5, 5;
-  --bg-primary-rgb: 10, 10, 10;
-  --text-primary-rgb: 240, 240, 240;
-  --text-muted-rgb: 85, 85, 85;
+  /* RGB values for rgba() usage */
+  --scan-red-rgb: 88, 192, 200;
+  --accent-blue-rgb: 96, 136, 208;
+  --accent-purple-rgb: 120, 112, 232;
+  --health-green-rgb: 88, 208, 160;
+  --warning-amber-rgb: 232, 192, 88;
+  --warning-orange-rgb: 208, 144, 64;
+  --critical-red-rgb: 224, 96, 112;
+  --purple-rgb: 160, 144, 240;
+  --info-blue-rgb: 120, 168, 240;
+  --bg-void-rgb: 13, 16, 40;
+  --bg-primary-rgb: 19, 24, 64;
+  --text-primary-rgb: 232, 240, 240;
+  --text-muted-rgb: 88, 104, 152;
 
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -296,7 +313,7 @@ code, pre {
   z-index: 1;
   pointer-events: none;
   background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    linear-gradient(90deg, rgba(88, 192, 200, 0.02), rgba(96, 136, 208, 0.01), rgba(120, 112, 232, 0.02));
   background-size: 100% 4px, 3px 100%;
   opacity: 0.35;
 }
@@ -370,7 +387,7 @@ code, pre {
 
 .btn-scan-primary {
   background: var(--scan-red);
-  color: #000;
+  color: #0D1028;
   font-weight: 700;
   border: none;
   border-radius: var(--radius-md);
@@ -389,7 +406,7 @@ code, pre {
 }
 
 .hero-logo-gradient {
-  background: linear-gradient(135deg, var(--scan-red), var(--critical-red));
+  background: linear-gradient(135deg, var(--scan-red), var(--accent-blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -424,14 +441,14 @@ code, pre {
 
 .boot-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--scan-red), var(--critical-red));
+  background: linear-gradient(90deg, var(--scan-red), var(--accent-blue));
   transform-origin: left;
   animation: bootBarLoop 1.2s ease-in-out infinite;
 }
 
 .boot-bar-fill-once {
   height: 100%;
-  background: linear-gradient(90deg, var(--scan-red), var(--critical-red));
+  background: linear-gradient(90deg, var(--scan-red), var(--accent-blue));
   transform-origin: left;
   animation: bootBar 0.8s ease forwards;
 }
@@ -508,8 +525,83 @@ code, pre {
   }
 }
 
+/* ── Pill buttons ──────────────────────────────────────── */
+.pill-btn {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 100px;
+  padding: 5px 13px;
+  font-size: 0.73rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  font-family: var(--font-mono);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pill-btn:hover {
+  border-color: rgba(88,192,200,0.45);
+  color: var(--text-primary);
+  background: rgba(88,192,200,0.06);
+}
+
+.pill-btn--green {
+  background: rgba(var(--health-green-rgb), 0.1);
+  border-color: rgba(var(--health-green-rgb), 0.3);
+  color: var(--health-green);
+  font-weight: 700;
+}
+
+.pill-btn--green:hover {
+  background: rgba(var(--health-green-rgb), 0.18);
+  border-color: var(--health-green);
+  color: var(--health-green);
+}
+
+/* ── slideInLine for terminal ─────────────────────────── */
+@keyframes slideInLine {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Bento card hover ─────────────────────────────────── */
+.bento-card {
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s, border-color 0.3s;
+}
+
+/* ── Responsive: hero split ───────────────────────────── */
+@media (max-width: 900px) {
+  .hero-split {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+
+  .bento-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .pipeline-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .pipeline-split {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  .cta-split {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 @media (max-width: 768px) {
   .grid-2, .grid-3, .grid-4 {
     grid-template-columns: 1fr;
+  }
+
+  .pipeline-grid {
+    grid-template-columns: 1fr !important;
   }
 }

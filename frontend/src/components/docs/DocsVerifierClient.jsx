@@ -131,10 +131,10 @@ export default function DocsVerifierClient({ initialDocs = [], owner, name }) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <h1 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '4px' }}>
-            Documentation Verifier
+            Documentation Inspector
           </h1>
           <p style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-            Detect AI slop, hallucinated features, and inconsistent documentation.
+            Surface AI-generated filler, hallucinated features, and inconsistencies across your docs.
           </p>
         </div>
         {!starting && (
@@ -152,7 +152,7 @@ export default function DocsVerifierClient({ initialDocs = [], owner, name }) {
               cursor: starting ? 'wait' : 'pointer',
             }}
           >
-            {starting ? 'Starting…' : '⚡ Verify Docs'}
+            {starting ? 'Starting…' : '⚡ Inspect Docs'}
           </button>
         )}
       </div>
@@ -177,7 +177,7 @@ export default function DocsVerifierClient({ initialDocs = [], owner, name }) {
           </div>
           {displayDocs.length === 0 ? (
             <div style={{ padding: '20px', fontSize: '0.8125rem', color: 'var(--color-text-secondary)', textAlign: 'center' }}>
-              No documentation found.
+              No documentation files found.
             </div>
           ) : (
             displayDocs.map((doc) => {
@@ -265,7 +265,7 @@ export default function DocsVerifierClient({ initialDocs = [], owner, name }) {
             </>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '300px', color: 'var(--color-text-muted)' }}>
-              Select a document
+              Choose a document to preview
             </div>
           )}
         </div>
@@ -275,10 +275,10 @@ export default function DocsVerifierClient({ initialDocs = [], owner, name }) {
           {!summary ? (
             <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '14px', color: 'var(--color-text-secondary)' }}>
               <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
-                Analysis Summary
+                Inspection Overview
               </div>
               <p style={{ fontSize: '0.8125rem', lineHeight: 1.5, margin: 0 }}>
-                Run <strong>⚡ Verify Docs</strong> to scan documentation for AI slop, feature hallucinations, and inconsistencies.
+                Run <strong>⚡ Inspect Docs</strong> to scan documentation for AI slop, ghost API references, and inconsistencies.
               </p>
             </div>
           ) : (
@@ -333,7 +333,7 @@ export default function DocsVerifierClient({ initialDocs = [], owner, name }) {
               {summary?.executive_summary && (
                 <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '14px' }}>
                   <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
-                    AI Summary
+                    AI Overview
                   </div>
                   <div style={{ fontSize: '0.8125rem', color: 'var(--color-text-secondary)', lineHeight: 1.5 }} className="markdown-body">
                     <style>{`
@@ -350,7 +350,7 @@ export default function DocsVerifierClient({ initialDocs = [], owner, name }) {
               {summary?.actionable_fixes?.length > 0 && (
                 <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '14px' }}>
                   <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '10px' }}>
-                    Actionable Fixes
+                    Suggested Fixes
                   </div>
                   <ul style={{ paddingLeft: '0', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     {summary.actionable_fixes.map((fix, i) => (

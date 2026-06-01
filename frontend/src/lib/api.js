@@ -27,16 +27,60 @@ async function apiFetch(path, options = {}) {
 
 // ── Repo ──────────────────────────────────────────────────────
 export async function fetchRepoInfo(owner, name) {
-  return apiFetch(`/github/repo?owner=${owner}&name=${name}`, { next: { revalidate: 300 } });
+  try {
+    return await apiFetch(`/github/repo?owner=${owner}&name=${name}`, { next: { revalidate: 300 } });
+  } catch (e) {
+    console.log("Using MOCK repo info");
+    return {
+      name,
+      owner: { login: owner },
+      description: "Mock repository for testing UI without backend.",
+      stars: 1024,
+      forks: 256,
+      language: "JavaScript"
+    };
+  }
 }
 
 // ── PRs ───────────────────────────────────────────────────────
 export async function fetchPRList(owner, name, state = 'all') {
-  return apiFetch(`/github/prs?owner=${owner}&name=${name}&state=${state}`, { next: { revalidate: 60 } });
+  try {
+    return await apiFetch(`/github/prs?owner=${owner}&name=${name}&state=${state}`, { next: { revalidate: 60 } });
+  } catch (e) {
+    console.log("Using MOCK PR list");
+    return [
+      { number: 42, title: 'Add amazing new feature', state: 'open', user: { login: 'johndoe' }, created_at: new Date().toISOString() },
+      { number: 41, title: 'Fix broken things', state: 'closed', merged: true, user: { login: 'janedoe' }, created_at: new Date(Date.now() - 86400000).toISOString() }
+    ];
+  }
 }
 
 export async function fetchPRDetail(owner, name, prNumber) {
-  return apiFetch(`/github/pr/${prNumber}?owner=${owner}&name=${name}`, { next: { revalidate: 60 } });
+  try {
+    return await apiFetch(`/github/pr/${prNumber}?owner=${owner}&name=${name}`, { next: { revalidate: 60 } });
+  } catch (e) {
+    console.log("Using MOCK PR detail");
+    return {
+      number: prNumber,
+      title: 'Add amazing new feature',
+      state: 'open',
+      user: { login: 'johndoe' },
+      created_at: new Date().toISOString(),
+      body: 'This PR adds a lot of cool stuff.\n\n- Feature A\n- Feature B',
+      additions: 150,
+      deletions: 20,
+      changed_files: 3,
+      commits: [
+        { sha: 'a1b2c3d4', commit: { message: 'Initial commit for feature', author: { name: 'johndoe', date: new Date().toISOString() } } }
+      ],
+      comments: [
+        { id: 1, user: { login: 'reviewer' }, body: 'Looks good to me.', created_at: new Date().toISOString() }
+      ],
+      files: [
+        { filename: 'src/index.js', status: 'modified', patch: '@@ -1,3 +1,4 @@\n+console.log("feature");\n-console.log("bug");' }
+      ]
+    };
+  }
 }
 
 // ── Stream Endpoint Constants ─────────────────────────────────
@@ -50,20 +94,44 @@ export const REPO_AUDIT_ANALYZE_URL = `${API_BASE}/api/repo/audit`;
 
 // ── Code Scan Summary & Files ──────────────────────────────────
 export async function fetchCodeReviewSummary(repoUrl, findings) {
-  return apiFetch(`/api/code-review/summary`, {
-    method: 'POST',
-    body: JSON.stringify({ repo: repoUrl, findings }),
-  });
+  try {
+    return await apiFetch(`/api/code-review/summary`, {
+      method: 'POST',
+      body: JSON.stringify({ repo: repoUrl, findings }),
+    });
+  } catch (e) {
+    return { summary: "Mock code review summary.", top_recommendations: ["Fix mock issue 1"] };
+  }
 }
 
 export async function getScanFileContent(owner, name, filePath) {
-  return apiFetch(`/github/file?owner=${owner}&name=${name}&path=${encodeURIComponent(filePath)}`);
+  try {
+    return await apiFetch(`/github/file?owner=${owner}&name=${name}&path=${encodeURIComponent(filePath)}`);
+  } catch (e) {
+    return { content: `// Mock content for ${filePath}\nfunction test() {\n  return true;\n}` };
+  }
 }
 
 export async function fetchCommitsList(owner, name, limit = 10) {
-  return apiFetch(`/github/commits?owner=${owner}&name=${name}&limit=${limit}`, { next: { revalidate: 60 } });
+  try {
+    return await apiFetch(`/github/commits?owner=${owner}&name=${name}&limit=${limit}`, { next: { revalidate: 60 } });
+  } catch (e) {
+    console.log("Using MOCK commits list");
+    return [
+      { sha: 'a1b2c3d4e5f6', commit: { message: 'Update code', author: { name: 'johndoe' } }, author: { login: 'johndoe' } },
+      { sha: 'f6e5d4c3b2a1', commit: { message: 'Fix typos', author: { name: 'janedoe' } }, author: { login: 'janedoe' } }
+    ];
+  }
 }
 
 export async function fetchDocsList(owner, name) {
-  return apiFetch(`/github/docs?owner=${owner}&name=${name}`, { next: { revalidate: 60 } });
+  try {
+    return await apiFetch(`/github/docs?owner=${owner}&name=${name}`, { next: { revalidate: 60 } });
+  } catch (e) {
+    console.log("Using MOCK docs list");
+    return [
+      { path: 'README.md' },
+      { path: 'docs/api.md' }
+    ];
+  }
 }

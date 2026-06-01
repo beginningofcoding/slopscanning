@@ -27,7 +27,7 @@ async function PRListContent({ owner, name }) {
 export default async function PRsPage({ params }) {
   const { owner, name } = await params;
   return (
-    <Suspense fallback={<LoadingSpinner label="Loading pull requests…" />}>
+    <Suspense fallback={<LoadingSpinner label="Fetching pull requests…" />}>
       <PRListContent owner={owner} name={name} />
     </Suspense>
   );

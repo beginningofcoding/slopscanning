@@ -3,161 +3,208 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
-import { GitPullRequest, GitMerge, XCircle, Search, User } from 'lucide-react';
-import Badge from '@/components/ui/Badge';
-import { PR_STATES } from '@/constants';
+import { GitPullRequest, GitMerge, XCircle, Search, User, Clock, ArrowUpRight } from 'lucide-react';
 
-function PRStateIcon({ state }) {
-  if (state === 'merged') return <GitMerge size={16} color="var(--purple)" />;
-  if (state === 'closed') return <XCircle size={16} color="var(--color-red)" />;
-  return <GitPullRequest size={16} color="var(--color-green)" />;
+const STATE_CONFIG = {
+  open:   { color: '#58D0A0', bg: 'rgba(88,208,160,0.08)',  border: 'rgba(88,208,160,0.2)',  label: 'Open',   icon: GitPullRequest },
+  merged: { color: '#A090F0', bg: 'rgba(160,144,240,0.08)', border: 'rgba(160,144,240,0.2)', label: 'Merged', icon: GitMerge },
+  closed: { color: '#E06070', bg: 'rgba(224,96,112,0.08)',  border: 'rgba(224,96,112,0.2)',  label: 'Closed', icon: XCircle },
+};
+
+function getPRState(pr) {
+  return pr.merged ? 'merged' : pr.state;
 }
 
 export default function PRListClient({ prs, owner, name }) {
-  const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
+  const [view, setView] = useState('board'); // 'board' | 'list'
 
-  const filtered = useMemo(() => {
-    return prs.filter((pr) => {
-      const matchState = filter === 'all' || pr.state === filter || (filter === 'merged' && pr.merged);
-      const matchSearch = !search || pr.title.toLowerCase().includes(search.toLowerCase()) || String(pr.number).includes(search);
-      return matchState && matchSearch;
-    });
-  }, [prs, filter, search]);
+  const filtered = useMemo(() =>
+    prs.filter(pr => !search || pr.title.toLowerCase().includes(search.toLowerCase()) || String(pr.number).includes(search)),
+    [prs, search]
+  );
 
-  const counts = useMemo(() => ({
-    all: prs.length,
-    open: prs.filter((p) => p.state === 'open').length,
-    closed: prs.filter((p) => p.state === 'closed' && !p.merged).length,
-    merged: prs.filter((p) => p.merged).length,
+  const byState = useMemo(() => ({
+    open:   filtered.filter(p => !p.merged && p.state === 'open'),
+    merged: filtered.filter(p => p.merged),
+    closed: filtered.filter(p => !p.merged && p.state === 'closed'),
+  }), [filtered]);
+
+  const totals = useMemo(() => ({
+    open: prs.filter(p => !p.merged && p.state === 'open').length,
+    merged: prs.filter(p => p.merged).length,
+    closed: prs.filter(p => !p.merged && p.state === 'closed').length,
   }), [prs]);
 
   return (
     <div>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '12px' }}>
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em' }}>
-          Pull Requests
-        </h1>
-        {/* Search */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'var(--color-surface)',
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-md)',
-            padding: '6px 12px',
-            minWidth: '240px',
-          }}
-        >
-          <Search size={14} color="var(--color-text-muted)" />
-          <input
-            type="text"
-            placeholder="Search PRs…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
-              color: 'var(--color-text-primary)',
-              fontSize: '0.875rem',
-              width: '100%',
-            }}
-          />
+      {/* ── Page header ── */}
+      <div style={{
+        padding: '1.5rem 0 1rem',
+        borderBottom: '1px solid rgba(88,192,200,0.08)',
+        marginBottom: '1.5rem',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
+          {/* Left: title + stat chips */}
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+              <div style={{ width: '16px', height: '2px', background: '#58D0A0', borderRadius: '1px' }} />
+              <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#58D0A0', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)' }}>Pull Requests</span>
+            </div>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.03em', margin: '0 0 10px' }}>
+              {prs.length} pull request{prs.length !== 1 ? 's' : ''}
+            </h1>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {Object.entries(totals).map(([state, count]) => {
+                const sc = STATE_CONFIG[state];
+                const Icon = sc.icon;
+                return (
+                  <div key={state} style={{ display: 'flex', alignItems: 'center', gap: '5px', padding: '4px 10px', background: sc.bg, border: `1px solid ${sc.border}`, borderRadius: '8px' }}>
+                    <Icon size={12} color={sc.color} />
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: sc.color, fontFamily: 'var(--font-mono)' }}>{count}</span>
+                    <span style={{ fontSize: '0.72rem', color: sc.color, opacity: 0.7, textTransform: 'capitalize' }}>{state}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right: search + view toggle */}
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '8px 14px', background: 'rgba(8,11,24,0.6)', border: '1px solid rgba(88,192,200,0.12)', borderRadius: '10px' }}>
+              <Search size={13} color="var(--color-text-muted)" />
+              <input
+                type="text" placeholder="Search PRs…" value={search}
+                onChange={e => setSearch(e.target.value)}
+                style={{ background: 'transparent', border: 'none', outline: 'none', color: 'var(--color-text-primary)', fontSize: '0.8125rem', width: '180px' }}
+              />
+            </div>
+            <div style={{ display: 'flex', background: 'rgba(8,11,24,0.6)', border: '1px solid rgba(88,192,200,0.12)', borderRadius: '10px', overflow: 'hidden' }}>
+              {['board', 'list'].map(v => (
+                <button key={v} onClick={() => setView(v)} style={{
+                  padding: '8px 14px', background: view === v ? 'rgba(88,192,200,0.12)' : 'transparent',
+                  border: 'none', cursor: 'pointer', fontSize: '0.75rem', fontWeight: view === v ? 700 : 400,
+                  color: view === v ? '#58C0C8' : 'var(--color-text-muted)', textTransform: 'capitalize', transition: 'all 0.15s',
+                }}>{v}</button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* State tabs */}
-      <div style={{ display: 'flex', gap: '4px', marginBottom: '1rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0' }}>
-        {['all', 'open', 'merged', 'closed'].map((state) => (
-          <button
-            key={state}
-            onClick={() => setFilter(state)}
-            style={{
-              background: 'none',
-              border: 'none',
-              borderBottom: filter === state ? '2px solid var(--color-accent)' : '2px solid transparent',
-              padding: '8px 14px',
-              fontSize: '0.8125rem',
-              fontWeight: filter === state ? 600 : 400,
-              color: filter === state ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
-              cursor: 'pointer',
-              transition: 'color 0.15s',
-              textTransform: 'capitalize',
-              marginBottom: '-1px',
-            }}
-          >
-            {state} <span style={{ color: 'var(--color-text-muted)', marginLeft: '4px' }}>{counts[state]}</span>
-          </button>
-        ))}
-      </div>
+      {/* ── BOARD VIEW: 3 columns by state ── */}
+      {view === 'board' && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', alignItems: 'start' }}>
+          {(['open', 'merged', 'closed']).map(state => {
+            const sc = STATE_CONFIG[state];
+            const Icon = sc.icon;
+            const items = byState[state];
+            return (
+              <div key={state}>
+                {/* Column header */}
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  padding: '10px 14px',
+                  background: sc.bg, border: `1px solid ${sc.border}`,
+                  borderRadius: '12px 12px 0 0',
+                  borderBottom: 'none',
+                }}>
+                  <Icon size={14} color={sc.color} />
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: sc.color, textTransform: 'capitalize' }}>{sc.label}</span>
+                  <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 700, color: sc.color }}>{items.length}</span>
+                </div>
 
-      {/* PR list */}
-      {filtered.length === 0 ? (
-        <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.9375rem' }}>
-          No pull requests found.
+                {/* Column body */}
+                <div style={{
+                  background: 'rgba(19,24,64,0.3)',
+                  border: `1px solid ${sc.border}`,
+                  borderTop: 'none',
+                  borderRadius: '0 0 12px 12px',
+                  overflow: 'hidden',
+                  minHeight: '120px',
+                }}>
+                  {items.length === 0 ? (
+                    <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>
+                      No {state} PRs
+                    </div>
+                  ) : (
+                    items.map((pr, i) => (
+                      <Link
+                        key={pr.number}
+                        href={`/repo/${owner}/${name}/prs/${pr.number}`}
+                        style={{
+                          display: 'block',
+                          padding: '12px 14px',
+                          textDecoration: 'none',
+                          borderBottom: i < items.length - 1 ? `1px solid ${sc.border}33` : 'none',
+                          transition: 'background 0.12s',
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.background = sc.bg}
+                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '6px', marginBottom: '6px' }}>
+                          <span style={{ fontSize: '0.8375rem', fontWeight: 600, color: 'var(--color-text-primary)', lineHeight: 1.4 }}>
+                            {pr.title}
+                          </span>
+                          <ArrowUpRight size={13} color="var(--color-text-muted)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                        </div>
+                        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: sc.color, fontWeight: 600 }}>#{pr.number}</span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                            <User size={10} /> {pr.user?.login || pr.author}
+                          </span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '3px', fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                            <Clock size={10} />
+                            {pr.created_at && formatDistanceToNow(new Date(pr.created_at), { addSuffix: true })}
+                          </span>
+                        </div>
+                      </Link>
+                    ))
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
-      ) : (
-        <div
-          style={{
-            border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius-lg)',
-            overflow: 'hidden',
-          }}
-        >
-          {filtered.map((pr, i) => {
-            const state = pr.merged ? 'merged' : pr.state;
+      )}
+
+      {/* ── LIST VIEW: compact timeline rows ── */}
+      {view === 'list' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          {filtered.length === 0 && (
+            <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>No matching pull requests.</div>
+          )}
+          {filtered.map(pr => {
+            const state = getPRState(pr);
+            const sc = STATE_CONFIG[state] || STATE_CONFIG.open;
+            const Icon = sc.icon;
             return (
               <Link
                 key={pr.number}
                 href={`/repo/${owner}/${name}/prs/${pr.number}`}
                 style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '12px',
-                  padding: '14px 16px',
-                  background: 'var(--color-surface)',
-                  borderBottom: i < filtered.length - 1 ? '1px solid var(--color-border-subtle)' : 'none',
-                  textDecoration: 'none',
-                  transition: 'background 0.1s',
+                  display: 'grid', gridTemplateColumns: '24px 1fr auto',
+                  gap: '12px', alignItems: 'center',
+                  padding: '12px 16px',
+                  background: 'rgba(19,24,64,0.4)',
+                  border: '1px solid rgba(88,192,200,0.08)',
+                  borderLeft: `3px solid ${sc.color}`,
+                  borderRadius: '10px',
+                  textDecoration: 'none', transition: 'all 0.12s',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-surface-2)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-surface)'; }}
+                onMouseEnter={e => { e.currentTarget.style.background = sc.bg; e.currentTarget.style.borderColor = sc.color; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(19,24,64,0.4)'; e.currentTarget.style.borderColor = 'rgba(88,192,200,0.08)'; e.currentTarget.style.borderLeftColor = sc.color; }}
               >
-                <div style={{ paddingTop: '2px', flexShrink: 0 }}>
-                  <PRStateIcon state={state} />
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px', flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: '0.9375rem', fontWeight: 500, color: 'var(--color-text-primary)' }}>
-                      {pr.title}
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', flexShrink: 0 }}>
-                      #{pr.number}
-                    </span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px', flexWrap: 'wrap' }}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-                      <User size={12} />
-                      {pr.user?.login || pr.author}
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-                      {pr.created_at && formatDistanceToNow(new Date(pr.created_at), { addSuffix: true })}
-                    </span>
-                    {pr.labels?.map((label) => (
-                      <Badge
-                        key={label.name}
-                        color={`#${label.color || '888'}`}
-                        style={{ fontSize: '0.6875rem' }}
-                      >
-                        {label.name}
-                      </Badge>
-                    ))}
+                <Icon size={16} color={sc.color} />
+                <div>
+                  <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-text-primary)' }}>{pr.title}</span>
+                  <div style={{ display: 'flex', gap: '12px', marginTop: '3px' }}>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>#{pr.number}</span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>{pr.user?.login || pr.author}</span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>{pr.created_at && formatDistanceToNow(new Date(pr.created_at), { addSuffix: true })}</span>
                   </div>
                 </div>
+                <ArrowUpRight size={14} color="var(--color-text-muted)" />
               </Link>
             );
           })}

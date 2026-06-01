@@ -9,11 +9,11 @@ const SEV_COLORS = {
   low: 'var(--color-text-muted)',
 };
 
-export default function SignalsPanel({ signals = [], title = 'Detection signals' }) {
+export default function SignalsPanel({ signals = [], title = 'Detected Signals' }) {
   if (!signals?.length) {
     return (
       <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-        No heuristic signals for this scan.
+        No pattern signals flagged for this scan.
       </p>
     );
   }
@@ -40,7 +40,7 @@ export default function SignalsPanel({ signals = [], title = 'Detection signals'
             )}
             {s.score !== undefined && (
               <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-                score {(s.score * 100).toFixed(0)}%
+                confidence {(s.score * 100).toFixed(0)}%
               </span>
             )}
           </div>

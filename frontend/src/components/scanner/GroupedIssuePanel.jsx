@@ -13,10 +13,10 @@ const TABS = [
 ];
 
 const SeverityIcon = ({ severity }) => {
-  if (severity === 'critical') return <XCircle size={13} color="#ff1744" />;
-  if (severity === 'high') return <AlertTriangle size={13} color="#ff6d00" />;
-  if (severity === 'medium') return <AlertCircle size={13} color="#ffab00" />;
-  return <Info size={13} color="#448aff" />;
+  if (severity === 'critical') return <XCircle size={13} color="#7870E8" />;
+  if (severity === 'high') return <AlertTriangle size={13} color="#E8A040" />;
+  if (severity === 'medium') return <AlertCircle size={13} color="#E8C058" />;
+  return <Info size={13} color="#58D0A0" />;
 };
 
 function IssueRow({ finding, onClick, activeFile }) {

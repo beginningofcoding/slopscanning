@@ -28,7 +28,7 @@ async function CommitsContent({ owner, name }) {
 export default async function CommitsPage({ params }) {
   const { owner, name } = await params;
   return (
-    <Suspense fallback={<LoadingSpinner label="Loading commits…" />}>
+    <Suspense fallback={<LoadingSpinner label="Loading commit history…" />}>
       <CommitsContent owner={owner} name={name} />
     </Suspense>
   );

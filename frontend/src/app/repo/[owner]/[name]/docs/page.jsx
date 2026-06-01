@@ -28,7 +28,7 @@ async function DocsContent({ owner, name }) {
 export default async function DocsPage({ params }) {
   const { owner, name } = await params;
   return (
-    <Suspense fallback={<LoadingSpinner label="Loading documentation files…" />}>
+    <Suspense fallback={<LoadingSpinner label="Fetching documentation files…" />}>
       <DocsContent owner={owner} name={name} />
     </Suspense>
   );

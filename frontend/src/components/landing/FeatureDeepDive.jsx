@@ -104,10 +104,10 @@ const TOOLS = [
 ];
 
 const SEVERITY_META = {
-  critical: { color: '#ff1744', bg: 'rgba(255,23,68,0.12)', icon: XCircle },
-  high: { color: '#ff6d00', bg: 'rgba(255,109,0,0.12)', icon: AlertTriangle },
-  medium: { color: '#ffab00', bg: 'rgba(255,171,0,0.12)', icon: AlertCircle },
-  low: { color: '#00e676', bg: 'rgba(0,230,118,0.12)', icon: Info },
+  critical: { color: '#7870E8', bg: 'rgba(120,112,232,0.12)', icon: XCircle },
+  high: { color: '#E8A040', bg: 'rgba(232,160,64,0.12)', icon: AlertTriangle },
+  medium: { color: '#E8C058', bg: 'rgba(232,192,88,0.12)', icon: AlertCircle },
+  low: { color: '#58D0A0', bg: 'rgba(88,208,160,0.12)', icon: Info },
 };
 
 function MockBadge({ label, level }) {
@@ -142,7 +142,7 @@ function MockTerminal({ lines }) {
     <div
       style={{
         background: 'var(--bg-void)',
-        border: '1px solid rgba(255,26,26,0.12)',
+        border: '1px solid rgba(88,192,200,0.12)',
         borderRadius: 'var(--radius-md)',
         padding: '12px 14px',
         fontFamily: 'var(--font-mono)',
@@ -157,7 +157,7 @@ function MockTerminal({ lines }) {
         if (l.status === 'removed') { color = '#ff6d00'; }
         if (l.status === 'added') { color = '#00e676'; }
         if (l.status === 'flagged') { color = '#ffab00'; bg = 'rgba(255,171,0,0.06)'; }
-        if (l.status === 'critical') { color = '#ff1744'; bg = 'rgba(255,23,68,0.08)'; }
+        if (l.status === 'critical') { color = '#7870E8'; bg = 'rgba(120,112,232,0.08)'; }
         return (
           <div key={i} style={{ display: 'flex', gap: '8px', background: bg, borderRadius: '2px', padding: '0 4px', margin: '0 -4px' }}>
             <span style={{ color: 'var(--text-dim)', userSelect: 'none', minWidth: '20px', textAlign: 'right' }}>{l.line}</span>
@@ -225,14 +225,14 @@ export default function FeatureDeepDive() {
                     style={{
                       width: '36px',
                       height: '36px',
-                      background: 'rgba(255,26,26,0.10)',
+                      background: 'rgba(88,192,200,0.10)',
                       borderRadius: 'var(--radius-md)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}
                   >
-                    <Icon size={18} color="#ff1a1a" />
+                    <Icon size={18} color="#58C0C8" />
                   </div>
                   <div>
                     <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--color-text-primary)', letterSpacing: '-0.01em' }}>
@@ -260,7 +260,7 @@ export default function FeatureDeepDive() {
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     {tool.detects.map((d, i) => (
                       <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '0.875rem', color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>
-                        <ShieldAlert size={14} color="#ff1a1a" style={{ flexShrink: 0, marginTop: '2px' }} />
+                        <ShieldAlert size={14} color="#58C0C8" style={{ flexShrink: 0, marginTop: '2px' }} />
                         {d}
                       </li>
                     ))}

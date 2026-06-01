@@ -4,10 +4,10 @@ import { useState } from 'react';
 import { XCircle, AlertTriangle, AlertCircle, Info } from 'lucide-react';
 
 const SEVERITY_META = {
-  critical: { label: 'Critical', color: '#ff1744', bg: 'rgba(255,23,68,0.15)', Icon: XCircle },
-  high: { label: 'High', color: '#ff6d00', bg: 'rgba(255,109,0,0.15)', Icon: AlertTriangle },
-  medium: { label: 'Medium', color: '#ffab00', bg: 'rgba(255,171,0,0.15)', Icon: AlertCircle },
-  low: { label: 'Low', color: '#00e676', bg: 'rgba(0,230,118,0.15)', Icon: Info },
+  critical: { label: 'Critical', color: '#7870E8', bg: 'rgba(120,112,232,0.15)', Icon: XCircle },
+  high: { label: 'High', color: '#E8A040', bg: 'rgba(232,160,64,0.15)', Icon: AlertTriangle },
+  medium: { label: 'Medium', color: '#E8C058', bg: 'rgba(232,192,88,0.15)', Icon: AlertCircle },
+  low: { label: 'Low', color: '#58D0A0', bg: 'rgba(88,208,160,0.15)', Icon: Info },
 };
 
 export default function SeverityDistribution({ findings, onFilter }) {

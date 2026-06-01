@@ -40,13 +40,13 @@ export default function Logo({ size = 28, className, style }) {
       <path d="M33 16.2l3.2 3.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <defs>
         <linearGradient id={`${id}-bg`} x1="8" y1="6" x2="34" y2="36" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#ff1a1a" />
-          <stop offset="1" stopColor="#8a0000" />
+          <stop stopColor="#58C0C8" />
+          <stop offset="1" stopColor="#2A7080" />
         </linearGradient>
         <linearGradient id={`${id}-scan`} x1="9" y1="20" x2="31" y2="20" gradientUnits="userSpaceOnUse">
           <stop stopColor="transparent" />
-          <stop offset="0.35" stopColor="#050505" />
-          <stop offset="0.65" stopColor="#050505" />
+          <stop offset="0.35" stopColor="#0D1028" />
+          <stop offset="0.65" stopColor="#0D1028" />
           <stop offset="1" stopColor="transparent" />
         </linearGradient>
       </defs>

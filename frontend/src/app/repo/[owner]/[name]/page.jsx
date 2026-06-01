@@ -27,7 +27,7 @@ async function RepoContent({ owner, name }) {
 export default async function RepoPage({ params }) {
   const { owner, name } = await params;
   return (
-    <Suspense fallback={<LoadingSpinner label="Loading repository…" />}>
+    <Suspense fallback={<LoadingSpinner label="Fetching repository…" />}>
       <RepoContent owner={owner} name={name} />
     </Suspense>
   );
