@@ -599,3 +599,12 @@ We state these in-product and in judging materials:
 Copyright (c) 2026 **thanos**. Released under the [MIT License](LICENSE).
 
 **Source:** https://github.com/beginningofcoding/slopscanning
+
+---
+
+## Changelog
+
+### v1.0.0 — 2026-06-01
+- Initial public release with full audit pipeline.
+- Added PR reviewer, commit verifier, docs checker, and code scanner.
+- Released bake-off benchmarks and heuristic evaluation suite.
