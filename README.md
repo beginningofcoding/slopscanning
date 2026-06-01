@@ -616,3 +616,11 @@ Copyright (c) 2026 **thanos**. Released under the [MIT License](LICENSE).
 - **v1.1.0** — GitHub App integration with PR status checks.
 - **v1.2.0** — Custom heuristic rule engine for enterprise policies.
 - **v2.0.0** — Multi-repository dashboard and trend analytics.
+
+---
+
+## Acknowledgments
+
+- Built during the **Slop Scan hackathon** (May 29 – Jun 1, 2026).
+- Thanks to the open-source community for heuristic pattern libraries and GitHub API tooling.
+- Special shout-out to early testers who helped tune the signal thresholds.
