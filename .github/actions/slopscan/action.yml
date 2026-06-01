@@ -1,0 +1,56 @@
+name: SlopScan PR Heuristics
+description: Run SlopScan heuristic checks on a pull request
+
+inputs:
+  github_token:
+    description: GitHub token
+    required: true
+  pr_number:
+    description: Pull request number
+    required: true
+  repo:
+    description: owner/name
+    required: true
+  fail_threshold:
+    description: Fail if Unchecked Publish Index exceeds this value (0-1)
+    required: false
+    default: "0.7"
+  api_url:
+    description: Optional SlopScan API base URL (if unset, runs local CLI)
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Python
+      if: inputs.api_url == ''
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install backend deps
+      if: inputs.api_url == ''
+      shell: bash
+      working-directory: backend
+      run: pip install -r requirements.txt
+
+    - name: Run heuristics via CLI
+      if: inputs.api_url == ''
+      shell: bash
+      working-directory: backend
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      run: |
+        python cli/slopscan_cli.py \
+          --repo "${{ inputs.repo }}" \
+          --pr "${{ inputs.pr_number }}" \
+          --fail-threshold "${{ inputs.fail_threshold }}"
+
+    - name: Run heuristics via API
+      if: inputs.api_url != ''
+      shell: bash
+      run: |
+        curl -sf -X POST "${{ inputs.api_url }}/api/pr-review/heuristics-only" \
+          -H "Content-Type: application/json" \
+          -d "{\"repo\":\"https://github.com/${{ inputs.repo }}\",\"prNumber\":${{ inputs.pr_number }}}"
