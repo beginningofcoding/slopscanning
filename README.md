@@ -608,3 +608,11 @@ Copyright (c) 2026 **thanos**. Released under the [MIT License](LICENSE).
 - Initial public release with full audit pipeline.
 - Added PR reviewer, commit verifier, docs checker, and code scanner.
 - Released bake-off benchmarks and heuristic evaluation suite.
+
+---
+
+## Roadmap
+
+- **v1.1.0** — GitHub App integration with PR status checks.
+- **v1.2.0** — Custom heuristic rule engine for enterprise policies.
+- **v2.0.0** — Multi-repository dashboard and trend analytics.
