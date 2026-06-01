@@ -1,6 +1,6 @@
 # The Bake-Off
 
-> **Bake-Off 2.0 (heuristic-only, N=28):** run `python backend/scripts/run_bakeoff.py` or see [benchmarks/results.md](benchmarks/results.md). The section below documents the original repository-level evaluation (N=2).
+> **Bake-Off 2.0 (heuristic-only, N=28):** run `python backend/scripts/run_heuristic_bakeoff.py` or see [benchmarks/results.md](benchmarks/results.md). The section below documents the original repository-level evaluation (N=2).
 
 ## Objective
 

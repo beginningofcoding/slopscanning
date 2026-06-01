@@ -29,7 +29,7 @@ async def analyze_pr_stream(repo_url: str, pr_number: int) -> AsyncGenerator[str
             logger.warning(f"Truncating diff for PR {pr_number} from {len(diff_text)} to 80000 chars")
             diff_text = diff_text[:80000]
 
-        from heuristics.pr_bundle import analyze_pr_heuristics
+        from heuristics.pr_bundle_heuristic import analyze_pr_heuristics
 
         heuristic_signals, pr_metrics, _, _preliminary_upi = analyze_pr_heuristics(
             pr_data, diff_text, comparison=None
@@ -142,7 +142,7 @@ async def analyze_pr_stream(repo_url: str, pr_number: int) -> AsyncGenerator[str
             verdict = "TRUSTWORTHY"
             confidence_score = 0.85
 
-        from heuristics.slop_index import compute_unchecked_publish_index, risks_from_pr_signals
+        from heuristics.slop_index_heuristic import compute_unchecked_publish_index, risks_from_pr_signals
 
         pr_claim_risk, hollow_risk = risks_from_pr_signals(heuristic_signals, comparison)
         unchecked_publish_index = compute_unchecked_publish_index(

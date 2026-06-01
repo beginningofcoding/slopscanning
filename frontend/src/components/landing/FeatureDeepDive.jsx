@@ -78,7 +78,7 @@ const TOOLS = [
     ],
   },
   {
-    key: 'scan',
+    key: 'code-review',
     icon: ScanLine,
     title: 'Code Scanner',
     tagline: 'Hunt dead code, secrets, and AI artifacts.',

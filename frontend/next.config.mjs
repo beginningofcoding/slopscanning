@@ -23,11 +23,35 @@ const nextConfig = {
       },
     ],
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/repo/:owner/:name/scan',
+        destination: '/repo/:owner/:name/code-review',
+        permanent: true,
+      },
+      {
+        source: '/repo/:owner/:name/prs',
+        destination: '/repo/:owner/:name/pr-review',
+        permanent: true,
+      },
+      {
+        source: '/repo/:owner/:name/prs/:prNumber',
+        destination: '/repo/:owner/:name/pr-review/:prNumber',
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
+    const backend =
+      process.env.API_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      'https://slopscanning.onrender.com';
     return [
       {
         source: '/api/backend/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/:path*`,
+        destination: `${backend.replace(/\/$/, '')}/:path*`,
       },
     ];
   },

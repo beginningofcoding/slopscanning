@@ -1,5 +1,5 @@
-from heuristics.commit_burst import analyze_commit_burst
-from heuristics.commit_generic import is_generic_message
+from heuristics.commit_burst_heuristic import analyze_commit_burst
+from heuristics.commit_generic_heuristic import is_generic_message
 
 
 def test_generic_message():

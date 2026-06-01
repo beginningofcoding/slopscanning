@@ -5,7 +5,7 @@ import json
 import logging
 from typing import AsyncGenerator
 
-from heuristics.pr_bundle import analyze_pr_heuristics
+from heuristics.pr_bundle_heuristic import analyze_pr_heuristics
 from services.github_service import get_pr
 
 logger = logging.getLogger(__name__)

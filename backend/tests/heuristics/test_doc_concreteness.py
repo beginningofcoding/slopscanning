@@ -1,4 +1,4 @@
-from heuristics.doc_concreteness import analyze_markdown_concreteness
+from heuristics.doc_concreteness_heuristic import analyze_markdown_concreteness
 
 
 def test_hollow_section():

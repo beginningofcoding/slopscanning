@@ -7,10 +7,10 @@ import { PROJECT_NAME } from '@/lib/project';
 
 const TABS = [
   { key: 'audit', label: 'Repository Audit', icon: Scan, href: (o, n) => `/repo/${o}/${n}/audit` },
-  { key: 'prs', label: 'Pull Request Check', icon: Target, href: (o, n) => `/repo/${o}/${n}/prs` },
+  { key: 'pr-review', label: 'Pull Request Check', icon: Target, href: (o, n) => `/repo/${o}/${n}/pr-review` },
   { key: 'commits', label: 'Commit Inspector', icon: Fingerprint, href: (o, n) => `/repo/${o}/${n}/commits` },
   { key: 'docs', label: 'Docs Inspector', icon: Eye, href: (o, n) => `/repo/${o}/${n}/docs` },
-  { key: 'scan', label: 'Source Scanner', icon: ScanLine, href: (o, n) => `/repo/${o}/${n}/scan` },
+  { key: 'code-review', label: 'Source Scanner', icon: ScanLine, href: (o, n) => `/repo/${o}/${n}/code-review` },
 ];
 
 export default function RepoNav({ owner, name, active }) {

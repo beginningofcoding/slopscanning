@@ -179,7 +179,7 @@ def analyze_docs_file(file_path: Path, repo_path: Path, all_source_words: set) -
         if "description" not in f:
             f["description"] = f.get("explanation", "")
 
-    from heuristics.doc_concreteness import analyze_markdown_concreteness
+    from heuristics.doc_concreteness_heuristic import analyze_markdown_concreteness
 
     rel = str(file_path.relative_to(repo_path)) if repo_path else file_path.name
     _, concrete_findings = analyze_markdown_concreteness(content, rel)
@@ -196,7 +196,7 @@ async def analyze_docs_stream(repo_url: str) -> AsyncGenerator[str, None]:
         
     temp_dir = tempfile.mkdtemp(prefix="slop_docs_")
     try:
-        from services.openrouter_service import verify_claims_qwen
+        from services.llm_analysis_service import verify_claims_qwen
         yield f"data: {json.dumps({'type': 'progress', 'step': 'Cloning repository', 'percent': 10})}\n\n"
         
         await asyncio.to_thread(clone_repo, repo_url, temp_dir)
@@ -244,7 +244,7 @@ async def analyze_docs_stream(repo_url: str) -> AsyncGenerator[str, None]:
             if file_findings:
                 all_findings.extend(file_findings)
 
-        from heuristics.doc_drift import check_readme_vs_manifest
+        from heuristics.doc_drift_heuristic import check_readme_vs_manifest
 
         _, drift_findings = check_readme_vs_manifest(repo_path)
         for df in drift_findings:

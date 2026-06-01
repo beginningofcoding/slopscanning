@@ -1,5 +1,5 @@
 import RepoNav from '@/components/repo/RepoNav';
-import UnifiedAuditClient from '@/components/audit/UnifiedAuditClient';
+import RepoAuditClient from '@/components/repo-audit/RepoAuditClient';
 
 export default async function AuditPage({ params, searchParams }) {
   const { owner, name } = await params;
@@ -9,7 +9,7 @@ export default async function AuditPage({ params, searchParams }) {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
       <RepoNav owner={owner} name={name} active="audit" />
-      <UnifiedAuditClient owner={owner} name={name} autoStart={demo} />
+      <RepoAuditClient owner={owner} name={name} autoStart={demo} />
     </div>
   );
 }

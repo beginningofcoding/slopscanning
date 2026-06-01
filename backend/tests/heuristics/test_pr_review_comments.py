@@ -1,4 +1,4 @@
-from heuristics.pr_review_comments import analyze_review_comments
+from heuristics.pr_review_comments_heuristic import analyze_review_comments
 
 
 def test_hollow_lgtm():

@@ -20,7 +20,15 @@ async function RepoContent({ owner, name }) {
   } catch (e) {
     error = e.message;
   }
-  if (error) return <ErrorState message={error} />;
+  if (error) {
+    return (
+      <ErrorState
+        message={error}
+        onRetry={undefined}
+        subtitle={`https://github.com/${owner}/${name}`}
+      />
+    );
+  }
   return <RepoDashboard repoInfo={repoInfo} owner={owner} name={name} />;
 }
 

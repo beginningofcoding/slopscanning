@@ -42,7 +42,7 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
       run: |
-        python cli/slopscan_cli.py \
+        python cli/slopscan_main.py \
           --repo "${{ inputs.repo }}" \
           --pr "${{ inputs.pr_number }}" \
           --fail-threshold "${{ inputs.fail_threshold }}"

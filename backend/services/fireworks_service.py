@@ -11,7 +11,7 @@ import logging
 
 import httpx
 
-from core.config import get_settings
+from core.app_config import get_settings
 
 logger = logging.getLogger(__name__)
 

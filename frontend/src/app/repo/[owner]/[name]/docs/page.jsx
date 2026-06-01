@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import RepoNav from '@/components/repo/RepoNav';
-import DocsVerifierClient from '@/components/docs/DocsVerifierClient';
+import DocsReviewClient from '@/components/docs/DocsReviewClient';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import ErrorState from '@/components/ui/ErrorState';
 import { fetchDocsList } from '@/lib/api';
@@ -19,7 +19,7 @@ async function DocsContent({ owner, name }) {
     <div style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
       <RepoNav owner={owner} name={name} active="docs" />
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '2rem 1.5rem' }}>
-        <DocsVerifierClient initialDocs={initialDocs} owner={owner} name={name} />
+        <DocsReviewClient initialDocs={initialDocs} owner={owner} name={name} />
       </div>
     </div>
   );
@@ -32,4 +32,4 @@ export default async function DocsPage({ params }) {
       <DocsContent owner={owner} name={name} />
     </Suspense>
   );
-}
+}

@@ -15,7 +15,7 @@ const MODULES = [
     tag: 'Recommended',
   },
   {
-    key: 'prs', href: (o, n) => `/repo/${o}/${n}/prs`,
+    key: 'pr-review', href: (o, n) => `/repo/${o}/${n}/pr-review`,
     icon: Target, label: 'Pull Request Checker', shortLabel: 'PRs',
     desc: 'Surface fabricated PR claims using diff fingerprinting.',
     color: '#E06070', rgb: '224,96,112',
@@ -33,7 +33,7 @@ const MODULES = [
     color: '#E8C058', rgb: '232,192,88',
   },
   {
-    key: 'scan', href: (o, n) => `/repo/${o}/${n}/scan`,
+    key: 'code-review', href: (o, n) => `/repo/${o}/${n}/code-review`,
     icon: ScanLine, label: 'Source Code Scanner', shortLabel: 'Code',
     desc: 'Hunt dead code, stub functions, embedded secrets, and AI anti-patterns.',
     color: '#78A8F0', rgb: '120,168,240',

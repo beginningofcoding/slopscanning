@@ -1,5 +1,5 @@
-from heuristics.signal_types import Severity, Signal
-from heuristics.slop_index import compute_slop_index, compute_unchecked_publish_index
+from heuristics.signal_types_heuristic import Severity, Signal
+from heuristics.slop_index_heuristic import compute_slop_index, compute_unchecked_publish_index
 
 
 def test_slop_index_weighted():

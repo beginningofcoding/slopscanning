@@ -8,14 +8,14 @@ import asyncio
 from pathlib import Path
 from typing import AsyncGenerator
 
-from core.config import get_settings
-from heuristics.commit_burst import analyze_commit_burst
-from heuristics.commit_generic import analyze_commit_messages
-from heuristics.doc_concreteness import analyze_readme_content
-from heuristics.pr_bundle import analyze_pr_heuristics
-from heuristics.signal_types import Signal
-from heuristics.slop_index import compute_slop_index, compute_unchecked_publish_index, doc_fiction_risk_from_signals
-from services.code_scan_regex import regex_scan_stats, run_regex_scan
+from core.app_config import get_settings
+from heuristics.commit_burst_heuristic import analyze_commit_burst
+from heuristics.commit_generic_heuristic import analyze_commit_messages
+from heuristics.doc_concreteness_heuristic import analyze_readme_content
+from heuristics.pr_bundle_heuristic import analyze_pr_heuristics
+from heuristics.signal_types_heuristic import Signal
+from heuristics.slop_index_heuristic import compute_slop_index, compute_unchecked_publish_index, doc_fiction_risk_from_signals
+from services.code_scan_regex_service import regex_scan_stats, run_regex_scan
 from services.docs_verifier_service import clone_repo
 from services.fireworks_service import chat_complete
 from services.github_service import get_commits, get_file_content, get_pr, get_prs, get_repo
@@ -130,7 +130,7 @@ async def analyze_repo_audit_stream(repo_url: str, mode: str = "fast") -> AsyncG
             high = stats["bySeverity"].get("high", 0) + stats["bySeverity"].get("critical", 0)
             code_score = min(1.0, high / 10.0) if high else min(1.0, stats["totalIssues"] / 30.0)
             if high >= 3:
-                from heuristics.signal_types import Severity
+                from heuristics.signal_types_heuristic import Severity
 
                 all_signals.append(
                     Signal(

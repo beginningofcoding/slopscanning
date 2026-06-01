@@ -1,5 +1,5 @@
-from heuristics.pr_density import analyze_pr_density
-from heuristics.text_overlap import overlap_ratio
+from heuristics.pr_density_heuristic import analyze_pr_density
+from heuristics.text_overlap_heuristic import overlap_ratio
 
 
 def test_high_overlap_detected():

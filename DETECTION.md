@@ -33,7 +33,7 @@ GitHub data / cloned repo
 | `hollow-section` | Docs | Section word count vs code fences / commands |
 | `low-concreteness` | Docs | Information density score per section |
 | `doc-drift` | Docs | README install hints vs manifests on disk |
-| `code-regex-issues` | Code | [`pattern_scorer.py`](backend/utils/pattern_scorer.py) |
+| `code-regex-issues` | Code | [`regex_pattern_scorer.py`](backend/utils/regex_pattern_scorer.py) |
 
 ## Indexes
 
@@ -59,4 +59,4 @@ GitHub data / cloned repo
 
 ## Evaluation
 
-Run heuristic bake-off: `make bakeoff` or `python backend/scripts/run_bakeoff.py` (see [benchmarks/manifest.json](benchmarks/manifest.json)).
+Run heuristic bake-off: `make bakeoff` or `python backend/scripts/run_heuristic_bakeoff.py` (see [benchmarks/manifest.json](benchmarks/manifest.json)).

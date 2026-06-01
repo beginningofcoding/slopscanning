@@ -11,7 +11,7 @@ import {
   ClipboardList, Radar, Activity, BarChart3, ShieldAlert,
   Zap, Terminal, ChevronRight, GitBranch, FileCode, BookOpen, Shield
 } from 'lucide-react';
-import { LIVE_FIRE_PRESETS, auditPathForUrl } from '@/lib/live_fire_presets';
+import { LIVE_FIRE_PRESETS, auditPathForUrl } from '@/lib/liveFirePresets';
 import Logo from '@/components/ui/Logo';
 
 const EXAMPLES = LIVE_FIRE_PRESETS.map((p) => ({ label: p.label, url: p.url }));

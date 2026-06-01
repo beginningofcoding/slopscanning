@@ -3,7 +3,7 @@ import logging
 from typing import AsyncGenerator
 from services.github_service import get_commits, get_commit_diff
 from services.fireworks_service import chat_complete
-from services.openrouter_service import verify_commit_qwen
+from services.llm_analysis_service import verify_commit_qwen
 
 logger = logging.getLogger(__name__)
 
@@ -64,8 +64,8 @@ async def analyze_commits_stream(repo_url: str, limit: int = 10) -> AsyncGenerat
         slop_score = (hallucinated + (generic * 0.5)) / total if total > 0 else 0.0
         quality_score = trustworthy / total if total > 0 else 1.0
 
-        from heuristics.commit_burst import analyze_commit_burst
-        from heuristics.commit_generic import analyze_commit_messages
+        from heuristics.commit_burst_heuristic import analyze_commit_burst
+        from heuristics.commit_generic_heuristic import analyze_commit_messages
 
         burst_signals, pattern_summary = analyze_commit_burst(commits)
         generic_signals, generic_metrics = analyze_commit_messages(

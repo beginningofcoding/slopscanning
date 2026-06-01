@@ -26,7 +26,7 @@ def _get_model(temperature: float = 0.1):
     import google.generativeai as genai
 
     try:
-        from core.config import get_settings
+        from core.app_config import get_settings
         api_key = get_settings().GEMINI_API_KEY
     except Exception:
         import os
@@ -95,7 +95,7 @@ async def _call_gemini(
         return None
 
 async def gemini_generate(prompt: str, options: dict = None) -> str:
-    from core.config import get_settings
+    from core.app_config import get_settings
     import httpx
     api_key = get_settings().GEMINI_API_KEY
     if not api_key:

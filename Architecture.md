@@ -37,7 +37,7 @@ SlopScanning is built upon a high-performance **asynchronous, direct-streaming a
 
 ### Architectural Pillars
 1. **Asynchronous Execution Loop**: The FastAPI backend is built entirely on python's `asyncio` loop. Heavy operations (such as filesystem access, regex evaluation on directories, and external LLM invocations) are processed concurrently or offloaded to threads using `asyncio.to_thread` to ensure zero blocking of the server's event loop.
-2. **Server-Sent Events (SSE)**: Long-running pipelines establish a persistent HTTP connection using a `StreamingResponse` set to `text/event-stream`. The client (Next.js) reads this stream progressively using a custom `useActionStream` hook, enabling sub-second latency for UI feedback.
+2. **Server-Sent Events (SSE)**: Long-running pipelines establish a persistent HTTP connection using a `StreamingResponse` set to `text/event-stream`. The client (Next.js) reads this stream progressively using a custom `useSsePostStream` hook, enabling sub-second latency for UI feedback.
 3. **Multi-Model Orchestration**: Complex semantic tasks are split:
    * **Gemini 3.1 Flash-Lite** handles lightweight description generation, claims parsing, and HTML executive summaries.
    * **Qwen 2.5 72B Instruct** handles deep file parsing, claims verification against codebase contexts, and commit-diff auditing.
@@ -133,7 +133,7 @@ sequenceDiagram
   * Clones the codebase.
   * Walks the tree and filters for code extensions (e.g. `.py`, `.js`, `.ts`, `.rs`).
   * Concurrently processes each file:
-    * Scans for regex-based patterns (`pattern_scorer.py`): Hardcoded secrets, placeholders, raw urls, fake successes.
+    * Scans for regex-based patterns (`regex_pattern_scorer.py`): Hardcoded secrets, placeholders, raw urls, fake successes.
     * Scores each match (skipping test files, lowering weights for example templates).
     * If a file exceeds `200` lines or contains regex candidates, submits it to OpenRouter for a deep static audit.
     * Applies a Semaphore of `15` concurrent requests to avoid OpenRouter rate-limiting.
@@ -146,4 +146,4 @@ sequenceDiagram
 1. **GitHub Access Security**: Personal GitHub tokens (`GITHUB_TOKEN`) are configured strictly server-side and never exposed to the client.
 2. **Volatile Sandboxing**: Shallow clones are written to temporary system paths (`tempfile.mkdtemp`) and are automatically deleted recursively (`shutil.rmtree`) upon completion or stream termination.
 3. **CORS Safe-listing**: Production origins configured in `CORS_ORIGINS` are loaded alongside localhost for strict browser request filtering.
-4. **Local Pattern Scoring**: Before pushing raw code snippets to external LLM services, the `pattern_scorer.py` validates findings and filters benign declarations (like test cases, mock methods, and sample config files), preventing data-leakage of proprietary testing configurations.
+4. **Local Pattern Scoring**: Before pushing raw code snippets to external LLM services, the `regex_pattern_scorer.py` validates findings and filters benign declarations (like test cases, mock methods, and sample config files), preventing data-leakage of proprietary testing configurations.

@@ -10,7 +10,7 @@ test:
 	cd backend && python -m pytest tests -q
 
 bakeoff:
-	cd backend && python scripts/run_bakeoff.py
+	cd backend && python scripts/run_heuristic_bakeoff.py
 
 smoke:
-	cd backend && python scripts/smoke_test.py --check-contracts
+	cd backend && python scripts/run_smoke_test.py --check-contracts

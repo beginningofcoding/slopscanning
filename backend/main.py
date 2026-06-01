@@ -6,10 +6,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from core.config import get_settings
-from core.project_meta import PROJECT_AUTHOR, PROJECT_GITHUB_URL, PROJECT_NAME, PROJECT_SLUG
-from core.redis import init_redis, close_redis
-from routers import github, pr_review, docs_verify, code_scan, commit_verify, repo_audit
+from core.app_config import get_settings
+from core.project_metadata import PROJECT_AUTHOR, PROJECT_GITHUB_URL, PROJECT_NAME, PROJECT_SLUG
+from core.redis_client import init_redis, close_redis
+from routers import github_router, pr_review_router, docs_verifier_router, code_review_router, commit_verifier_router, repo_audit_router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -60,12 +60,12 @@ app.add_middleware(
 )
 
 # Routers — no /api prefix (frontend hits these paths directly at port 8000)
-app.include_router(github.router)
-app.include_router(pr_review.router)
-app.include_router(docs_verify.router)
-app.include_router(code_scan.router)
-app.include_router(commit_verify.router)
-app.include_router(repo_audit.router)
+app.include_router(github_router.router)
+app.include_router(pr_review_router.router)
+app.include_router(docs_verifier_router.router)
+app.include_router(code_review_router.router)
+app.include_router(commit_verifier_router.router)
+app.include_router(repo_audit_router.router)
 
 
 @app.get("/health")

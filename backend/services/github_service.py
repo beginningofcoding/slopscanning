@@ -2,7 +2,7 @@ import httpx
 import asyncio
 import logging
 from typing import Any
-from core.config import get_settings
+from core.app_config import get_settings
 
 logger = logging.getLogger(__name__)
 

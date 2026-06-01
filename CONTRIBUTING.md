@@ -15,16 +15,16 @@ As an open-source project, your contributions—whether they are bug fixes, styl
 SlopScanning consists of four core analysis engines designed to assess different dimensions of a software repository's health:
 
 1. **PR Reviewer:**
-   * **Location:** `backend/routers/pr_review.py` & `backend/services/pr_review_service.py`
+   * **Location:** `backend/routers/pr_review_router.py` & `backend/services/pr_review_service.py`
    * **Functionality:** Extracts GitHub Pull Request metadata and file diffs. Uses Fireworks (DeepSeek-V4-Pro) to describe structural modifications, extract claims from PR descriptions, analyze discrepancies, and stream real-time verdicts (`TRUSTWORTHY`, `SUSPICIOUS`, or `MISLEADING`), with Gemini as fallback.
 2. **Commit Verifier:**
-   * **Location:** `backend/routers/commit_verify.py` & `backend/services/commit_verifier_service.py`
+   * **Location:** `backend/routers/commit_verifier_router.py` & `backend/services/commit_verifier_service.py`
    * **Functionality:** Audits recent git commit history via Fireworks, cross-referencing commit messages with diff patches (Gemini fallback).
 3. **Documentation Verifier:**
-   * **Location:** `backend/routers/docs_verify.py` & `backend/services/docs_verifier_service.py`
+   * **Location:** `backend/routers/docs_verifier_router.py` & `backend/services/docs_verifier_service.py`
    * **Functionality:** Clones repositories to local sandboxed folders, parses Markdown files (`*.md`, `*.mdx`), runs local heuristics, and uses Fireworks to verify README claims against the codebase (Gemini fallback).
 4. **Code Scanner:**
-   * **Location:** `backend/routers/code_scan.py` & `backend/services/code_review_service.py`
+   * **Location:** `backend/routers/code_review_router.py` & `backend/services/code_scan_service.py`
    * **Functionality:** Regex audits plus deep Fireworks file analysis (semaphore pool limit of 15), returning an interactive tree view of highlighted issues.
 
 ---
@@ -40,7 +40,7 @@ slopscanning/
 │   └── src/
 │       ├── app/            # Route structures and global CSS style declarations
 │       ├── components/     # UI elements (Cards, Badges, File Trees)
-│       ├── hooks/          # React hooks (useActionStream for SSE handling)
+│       ├── hooks/          # React hooks (useSsePostStream for SSE handling)
 │       └── lib/            # Shared utilities and API fetch wrappers
 ├── backend/                 # Asynchronous Python FastAPI backend server
 │   ├── core/               # Redis configuration and settings loading
@@ -161,7 +161,7 @@ To keep the repository maintainable, clean, and stable, please adhere to these g
 * **Maintain Consistency:** Respect the dark-theme design tokens defined in `src/app/globals.css` (`--color-bg`, `--color-surface`, `--color-border`). Avoid introducing ad-hoc hardcoded CSS values.
 * **Component Reuse:** Place reusable UI layout pieces (spinners, cards, layouts) under `src/components/ui/` rather than re-implementing them.
 * **Avoid Bloat:** Do not add third-party dependencies unless strictly necessary and approved in PR discussions.
-* **Streaming Stability:** Ensure that the `useActionStream` hook's state callbacks are correctly managed, and that components call `abort()` upon unmounting.
+* **Streaming Stability:** Ensure that the `useSsePostStream` hook's state callbacks are correctly managed, and that components call `abort()` upon unmounting.
 
 ### Backend
 * **Asynchronous Execution:** Write asynchronous code (`async`/`await`) for all router endpoints, network calls, and file operations. Do not block the event loop with synchronous operations.
