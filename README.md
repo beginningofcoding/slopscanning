@@ -134,12 +134,12 @@ graph TB
     end
 
     subgraph API["FastAPI (backend/)"]
-        GH_R[/github/*]
-        PR_R[/api/pr-review/*]
-        CM_R[/api/commits/*]
-        DOC_R[/api/docs/*]
-        CODE_R[/api/code-review/*]
-        AUD_R[/api/repo/audit]
+        GH_R["/github/*"]
+        PR_R["/api/pr-review/*"]
+        CM_R["/api/commits/*"]
+        DOC_R["/api/docs/*"]
+        CODE_R["/api/code-review/*"]
+        AUD_R["/api/repo/audit"]
     end
 
     subgraph Services
